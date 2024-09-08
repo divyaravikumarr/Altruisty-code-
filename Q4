@@ -1,0 +1,42 @@
+#include <iostream>
+#include <string>
+#include <stack>
+#include <algorithm>
+using namespace std;
+
+string reduceTicketPrice(string price, int turns) {
+    int length = price.size();
+    stack<char> stk;
+    for (char currentDigit : price) {
+        while (!stk.empty() && turns > 0 && stk.top() > currentDigit) {
+            stk.pop();
+            turns--;
+        }
+        stk.push(currentDigit);
+    }
+    while (turns > 0) {
+        stk.pop();
+        turns--;
+    }
+    string minimizedPrice;
+    while (!stk.empty()) {
+        minimizedPrice += stk.top();
+        stk.pop();
+    }
+    reverse(minimizedPrice.begin(), minimizedPrice.end());
+    int idx = 0;
+    while (idx < minimizedPrice.size() && minimizedPrice[idx] == '0') {
+        idx++;
+    }
+    return (idx == minimizedPrice.size()) ? "0" : minimizedPrice.substr(idx);
+}
+
+int main() {
+    string ticketPrice;
+    int k;
+    cin >> ticketPrice;
+    cin >> k;
+    cout << reduceTicketPrice(ticketPrice, k) << endl;
+
+    return 0;
+}
