@@ -1,0 +1,30 @@
+#include <iostream>
+#include <unordered_map>
+#include <vector>
+#include <algorithm> 
+using namespace std;
+
+vector<int> findTwoUniqueNumbers(const vector<int>& arr) {
+    unordered_map<int, int> freq;
+    for (int num : arr) {
+        freq[num]++;
+    }
+    
+    vector<int> result;
+    for (const auto& pair : freq) {
+        if (pair.second == 1) {
+            result.push_back(pair.first);
+        }
+    }
+    sort(result.begin(), result.end());
+    
+    return result;
+}
+
+int main() {
+    vector<int> arr = {1, 2, 3, 2, 1, 4};
+    vector<int> result = findTwoUniqueNumbers(arr);
+    
+    cout << result[0] << " " << result[1] << endl;
+    return 0;
+}
